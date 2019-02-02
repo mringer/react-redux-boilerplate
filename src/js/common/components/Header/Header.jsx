@@ -10,6 +10,7 @@ class Header extends PureComponent {
 
     const isHome = pathname === '/';
     const isJustAnotherPage = pathname === '/page';
+    const isFormPage = pathname === '/form';
 
     return (
       <header className={styles.globalHeader}>
@@ -25,6 +26,12 @@ class Header extends PureComponent {
             {
               isJustAnotherPage
                 ? 'Just Another Page' : <Link to="/page">Just Another Page</Link>
+            }
+          </li>
+          <li className={!isFormPage ? styles.active : ''}>
+            {
+              isFormPage
+                ? 'JSON Schema Form Page' : <Link to="/form">JSON Schema Form Page</Link>
             }
           </li>
         </ul>
