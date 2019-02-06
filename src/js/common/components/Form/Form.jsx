@@ -15,31 +15,29 @@ import styles from './Form.css';
  * @extends PureComponent
  */
 
-class Example extends PureComponent {
+class SchemaForm extends PureComponent {
 
   render() {
-    const { form } = this.props;
+    // passing in the actions
+    const { form, updateForm, getForm } = this.props;
     const result = form && form.result ? form.result : null;
-
-    // const schema = {
-    //   title: "Todo",
-    //   type: "object",
-    //   required: ["title"],
-    //   properties: {
-    //     title: {type: "string", title: "Title", default: "A new task"},
-    //     done: {type: "boolean", title: "Done?", default: false}
-    //   }
-    // };
     
-    const log = (type) => console.log.bind(console, type);
+    console.log(form);
 
-    return (
-      <Form schema={schema}
-          onChange={log("changed")}
-          onSubmit={log("submitted")}
-          onError={log("errors")} />
-    );
+    const log = (type) => { 
+      return console.log.bind(console, type); 
+    }
+
+    if (result && result.id && result.id > 0) {
+      return (
+        <Form schema={result.schema}
+            onChange={ getForm } // log('changed') }
+            onSubmit={ updateForm }
+            onError={ log("errors") } />
+      );
+    }
+    return <div />;
   }
 }
 
-export default Example;
+export default SchemaForm;

@@ -1,6 +1,6 @@
 export type formType = {
-    id: JSON,
-    JSONSchema: JSON,
-    UISchema: JSON,
-    formData: JSON
+    id: string,
+    schema: any,
+    uiSchema: any,
+    formData: any
   }
