@@ -11,6 +11,7 @@ class Header extends PureComponent {
     const isHome = pathname === '/';
     const isJustAnotherPage = pathname === '/page';
     const isFormPage = pathname === '/form';
+    const isCallReasonsPage = pathname === '/callReasons';
 
     return (
       <header className={styles.globalHeader}>
@@ -19,7 +20,6 @@ class Header extends PureComponent {
             {
               isHome
                 ? 'Home' : <Link to="/">Home</Link>
-
             }
           </li>
           <li className={!isJustAnotherPage ? styles.active : ''}>
@@ -32,6 +32,12 @@ class Header extends PureComponent {
             {
               isFormPage
                 ? 'JSON Schema Form Page' : <Link to="/form">JSON Schema Form Page</Link>
+            }
+          </li>
+          <li className={!isCallReasonsPage ? styles.active : ''}>
+            {
+              isCallReasonsPage
+                ? 'Call Reasons Page' : <Link to="/callReasons">Call Reasons Page</Link>
             }
           </li>
         </ul>

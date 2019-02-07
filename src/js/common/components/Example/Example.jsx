@@ -40,8 +40,15 @@ class Example extends PureComponent {
   /* eslint-enable max-len */
 
   render() {
+    console.log('example props', this.props);
     const { example } = this.props;
+
+    console.log('example', example);
+
+
     const result = example && example.result ? example.result : null;
+
+    console.log('result', result);
 
     if (result && result.size && result.size > 0) {
       return (

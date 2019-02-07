@@ -26,10 +26,9 @@ const mapDispatchToProps = {
 class FormView extends Component {
 
   componentDidMount() {
-    // const { getForm, updateForm } = this.props
-    // updateForm;
-    console.log('componentDidMount')
-    console.log(this.props)
+    const { getForm } = this.props
+    getForm();
+    console.log('componentDidMount', this.props)
   }
 
   render() {

@@ -6,6 +6,6 @@ import { formSaga } from './formSaga';
 export default function* sagas() {
   yield all([
     ...exampleSaga,
-    // ...formSaga
+    ...formSaga
   ]);
 }

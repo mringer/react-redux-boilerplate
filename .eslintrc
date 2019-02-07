@@ -13,7 +13,8 @@
   "parserOptions": {
     "ecmaFeatures": {
       // Enabled object spread
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "jsx": true
     }
   },
   // Rule changes from Airbnb's eslint config

@@ -18,25 +18,27 @@ import styles from './Form.css';
 class SchemaForm extends PureComponent {
 
   render() {
-    // passing in the actions
-    const { form, updateForm, getForm } = this.props;
-    const result = form && form.result ? form.result : null;
     
-    console.log(form);
+    const { form } = this.props;
 
+    const formMap = form && form.form ? form.form : null;
+    
     const log = (type) => { 
       return console.log.bind(console, type); 
     }
 
-    if (result && result.id && result.id > 0) {
+    if (formMap && formMap.size && formMap.size > 0) {
+
+      const s =  formMap.get("schema").toJS();
+
       return (
-        <Form schema={result.schema}
-            onChange={ getForm } // log('changed') }
-            onSubmit={ updateForm }
+        <Form schema={s}
+            onChange={ log('changed') } // getForm } 
+            onSubmit={ log('updated') }
             onError={ log("errors") } />
       );
     }
-    return <div />;
+    return <div>Couldn't load form</div>;
   }
 }
 

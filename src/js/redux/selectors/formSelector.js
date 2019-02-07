@@ -2,11 +2,11 @@ import { createSelector } from 'reselect';
 
 const formDataSelector = (state) => state.form;
 
-const resultSelector = createSelector(
+const selector = createSelector(
   formDataSelector,
-  (payload) => payload.get('result')
+  (payload) => payload.get('form')
 );
 
 export const formSelector = (state) => ({
-  result: resultSelector(state),
+  form: selector(state),
 });
