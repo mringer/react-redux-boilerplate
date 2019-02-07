@@ -10,7 +10,7 @@ describe('redux.sagas.exampleSaga', () => {
     }
 
     const fixture = {
-        title: 'Everything is Awesome',
+        title: 'Everything is Awesome2',
         description: __CONFIG__.description,
         source: 'This message is coming from Redux',
       };
