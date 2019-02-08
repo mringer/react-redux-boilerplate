@@ -32,21 +32,41 @@ class CallReasonsView extends Component {
         return console.log.bind(console, type); 
     }
 
+
+    const TitleField = ({title}) => {
+      return '';
+    };
+    
+    const PromptField = ({value, placeholder}) => {
+      return <div className="prompt" >{(value) ? value : placeholder}</div>;
+    };
+    
+    const fields = { TitleField: TitleField };
+    const widgets = { PromptField: PromptField };
+
     const { form } = this.props;
     const formMap = form && form.form ? form.form : null;
     if (formMap && formMap.size && formMap.size > 0) {
-    const s =  formMap.get("schema").toJS();
+    const schema =  formMap.get("schema").toJS();
     return (
       <Fragment>
-        <LazyForm // { ...this.props }
-        schema={s}
-        onChange={ log('changed') } 
-        onSubmit={ this.props.updateCallReasons } //log('updated') }
-        onError={ log("errors") } />
+        <LazyForm
+        schema={schema.JSONSchema} 
+        uiSchema={schema.UISchema}
+        formData={schema.FormData}
+        fields={fields}
+        widgets={widgets}
+        // onChange={ log('changed') } 
+        // onError={ log("errors") }
+        onSubmit={ this.props.submitCallReasons }>
+          <div>
+            <button type="submit">Next</button>
+          </div>
+        </LazyForm>
       </Fragment>
     );
     }
-    return <div>Couldn't load Page Reasons</div>;
+    return <div>Couldn't load Call Reasons</div>;
   }
 }
 
