@@ -28,12 +28,6 @@ class Header extends PureComponent {
                 ? 'Just Another Page' : <Link to="/page">Just Another Page</Link>
             }
           </li>
-          <li className={!isFormPage ? styles.active : ''}>
-            {
-              isFormPage
-                ? 'JSON Schema Form Page' : <Link to="/form">JSON Schema Form Page</Link>
-            }
-          </li>
           <li className={!isCallReasonsPage ? styles.active : ''}>
             {
               isCallReasonsPage

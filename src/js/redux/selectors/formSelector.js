@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+// Example Form
+
 const formDataSelector = (state) => state.form;
 
 const selector = createSelector(
