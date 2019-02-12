@@ -1,5 +1,12 @@
 import { fieldProps } from 'react-jsonschema-form/lib/types';
 
-// console.log('types', fieldProps);
-// TODO: need to export the correct types...
-export type formType = {  } //fieldProps
+export type formType = { 
+  [key: string]: {
+    key: string,
+    nextButton?: {},
+    backButton?: {},
+    schema: {},
+    uiSchema: {},
+    formData: {}
+  }
+} 

@@ -25,7 +25,13 @@ export const actions = {
 };
 
 export const reducers = {
-  [UPDATE_CALL_REASONS]: (state, { payload }) => state.merge({ ...payload }) 
+  // [UPDATE_CALL_REASONS]: (state, { payload }) => state.merge({ ...payload }) 
+
+  [UPDATE_CALL_REASONS]: (state, { payload }) => { 
+    console.log('UPDATE_FORM');
+    return state.merge({ ...payload })
+  }
+
   // state.set("routing", {locationBeforeTransitions: payload}) 
 }
 

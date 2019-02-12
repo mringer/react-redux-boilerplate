@@ -12,17 +12,11 @@ import styles from '../style/index.css'
 // This is show case how you can lazy loading component
 const ExampleRouteHandler = LazyLoading(() => import('views/example'));
 const CallReasonsRouteHandler = LazyLoading(() => import('views/callReasons'));
-const CustomerServiceRouteHandler = LazyLoading(() => import('views/customerService'));
 const LeadFormRouteHandler = LazyLoading(() => import('views/leadForm'));
 const Header = LazyLoading(() => import('common/components/Header/Header'));
 
-// Please remove that, it is an example
-const JustAnotherPage = () => (
-  <div>
-    <h2>This is Just Another Page</h2>
-    <p>Please remove this from your route, it is just to show case basic setup for router.</p>
-  </div>
-)
+const CustomerServiceRouteHandler = LazyLoading(() => import('views/customerService'));
+const DynamicFormRouteHandler = LazyLoading(() => import('views/dynamicForm'));
 
 // This show case how you can access routing info in your component
 const HeaderWithRouter = withRouter((props) => <Header {...props} />)
@@ -34,11 +28,9 @@ module.exports = (
     <div className={styles.content}>
       <Switch>
         <Route exact path="/" component={ExampleRouteHandler} />
-        <Route path="/page" component={JustAnotherPage} />
-        {/* <Route path="/form" component={FormRouteHandler} /> */}
-        <Route path="/callReasons" component={CallReasonsRouteHandler} />
+        <Route path="/callReasons" component={ DynamicFormRouteHandler } />
         <Route path="/customerService" component={CustomerServiceRouteHandler} />
-        <Route path="/leadForm" component={LeadFormRouteHandler} />
+        <Route path="/leadForm" component={ DynamicFormRouteHandler /* LeadFormRouteHandler */ } />
         <Route path="*" component={ExampleRouteHandler} />
       </Switch>
     </div>

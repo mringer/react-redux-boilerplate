@@ -29,7 +29,7 @@ class CallReasonsView extends Component {
 
   render() {
     const log = (type) => { 
-        return console.log.bind(console, type); 
+      return console.log.bind(console, type); 
     };
 
     // const TitleField = ({title}) => '' {

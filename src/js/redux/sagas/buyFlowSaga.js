@@ -1,38 +1,69 @@
 import { put, fork, takeLatest } from 'redux-saga/effects';
-import form, { constants as formConstants, actions as formActions } from '../modules/form';
-import callReasonsForm, { constants as callReasonsConstants, actions as callReasonsActions } from '../modules/callReasonsForm';
-import { constants as leadFormConstants, actions as leadFormActions } from '../modules/leadForm';
 
+import callReasonsForm, { constants as callReasonsConstants, actions as callReasonsActions } from '../modules/callReasonsForm';
+
+import { constants as leadFormConstants, actions as leadFormActions } from '../modules/leadForm';
+import { constants as formConstants, actions as formActions } from '../modules/dynamicForm';
 import { formType } from '../../common/types/form';
 import { push } from 'react-router-redux';
 import jp from 'jsonpath';
-import { stringify } from 'querystring';
 
-
-export function* fetchFormData() {
-  // pretend there is an api call
-  const form: formType  = {
-    form:{
-      schema: {
-        title: "Todo",
-        type: "object",
-        required: ["title"],
-        properties: {
-          title: { type: "string", title: "Title", default: "A new task" },
-          done: { type: "boolean", title: "Done?", default: false }
-        },
-      },
-      uiSchema: null,
-      formData: null
+export function* fetchFormData(props) {
+    switch(props.payload.key) {
+      case '/callReasons':
+        yield put(formActions.updateForm({..._fetchCallReasons()}));
+        break;
+      case '/customerService':
+        const form = _fetchCustomerService();
+        break;
+      case '/LeadForm': // TODO: using the route is brittle, need to handle case and the slash...
+        yield put(formActions.updateForm({..._fetchLeadForm()}));
+        break;
     }
-  };
-  yield put(formActions.updateForm(form));
 }
 
-export function* fetchCallReasons() {
+export function* handleFormSubmit(props) {
+  console.log(props)
+  switch(props.payload.key) {
+    case '/callReasons':
+      yield _handleCallReasons(props);
+      break;
+    case '/customerService':
+      // const form = _fetchCustomerService();
+      break;
+    case '/leadForm':
+      break;
+  }
+}
+
+/*
+* Private function to handle Call Reason 
+*
+*/
+function* _handleCallReasons(props) {
+  console.log('hello from handle call reasons.')
+  switch(jp.query(props, '$.payload.formData.callReason').pop()) {
+    case 'sales':
+      // TODO: update API
+      yield put(push('/LeadForm'));
+      break;
+    default:
+      // TODO: update API
+      yield put(push('/CustomerService'));
+  }
+}
+
+/*
+* Fetch Call Reasons form (API Mock)
+*
+*/
+function _fetchCallReasons() {
   // pretend there is an api call
-  const form: formType  = {
-    form: {
+  const form: formType = {
+    "/callReasons": {
+      key: "/callReasons", 
+      nextButton: {}, 
+      // backButton: null,
       schema: {
         type: "object",
         required: ["callReason"],
@@ -88,27 +119,20 @@ export function* fetchCallReasons() {
       formData: { "prompt": "Thank you for calling (Provider Name), this is Andrew. What services are you setting up today?" }
     }
   };
-  yield put(callReasonsActions.updateCallReasons(form));
+  return form;
 }
 
-export function* handleCallReasons(props) {
-  switch(jp.query(props, '$.payload.form.formData.callReason').pop()) {
-    case 'sales':
-      // TODO: update API
-      yield put(push('/LeadForm'));
-      break;
-    default:
-      // TODO: update API
-      yield put(push('/CustomerService'));
-  }
-}
-
-export function* fetchLeadForm(props) {
+/*
+* Fetch Lead Form (API Mock)
+*/
+function _fetchLeadForm(props) {
   // API call goes here.
-
   // pretend there is an api call
   const form: formType  = {
-    form:{
+    "/LeadForm": {
+      key: "/LeadForm", 
+      nextButton: {}, 
+      // backButton: null,
       schema: {
         type: "object",
         required: [ "firstName", "lastName", "primaryPhone", "permissionToCall", "emailScriptAttempted" ],
@@ -307,13 +331,12 @@ export function* fetchLeadForm(props) {
       formData: {}
     }
   };
-  yield put(leadFormActions.updateLeadForm(form));
-
+  return form;
 }
 
-function* watchGetLeadForm() {
-  yield takeLatest(leadFormConstants.GET_LEAD_FORM, fetchLeadForm);
-}
+// function* watchGetLeadForm() {
+//   yield takeLatest(leadFormConstants.GET_LEAD_FORM, fetchLeadForm);
+// }
 
 function* watchGetCallReasons() {
   yield takeLatest(callReasonsConstants.GET_CALL_REASONS, fetchCallReasons)
@@ -323,8 +346,20 @@ function* watchSubmitCallReasons() {
   yield takeLatest(callReasonsConstants.SUBMIT_CALL_REASONS, handleCallReasons)
 }
 
+function* watchGetForm() {
+  yield takeLatest(formConstants.GET_FORM, fetchFormData);
+}
+
+function* watchSubmitForm() {
+  // todo handle form submit logic
+  yield takeLatest(formConstants.SUBMIT_FORM, handleFormSubmit)
+}
+
 export const buyFlowSaga = [
-  fork(watchGetLeadForm),
-  fork(watchGetCallReasons),
-  fork(watchSubmitCallReasons),
+  fork(watchGetForm),
+  fork(watchSubmitForm),
+
+  // fork(watchGetLeadForm),
+  // fork(watchGetCallReasons),
+  // fork(watchSubmitCallReasons),
 ];
